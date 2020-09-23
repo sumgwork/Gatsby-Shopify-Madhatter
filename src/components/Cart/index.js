@@ -5,7 +5,6 @@ import CartContext from 'context/CartContext';
 
 const Cart = () => {
   const { checkout } = useContext(CartContext);
-  console.log('checkout', checkout);
 
   let totalQuantity = 0;
   if (checkout) {
