@@ -1,11 +1,12 @@
-import { Layout } from 'components/Layout';
-import { graphql } from 'gatsby';
-import React, { useContext, useEffect, useState } from 'react';
-import ImageGallery from '../../components/ImageGallery';
-import CartContext from '../../context/CartContext';
-import { Grid, SelectWrapper, Price } from './styles';
 import { navigate, useLocation } from '@reach/router';
+import ImageGallery from 'components/ImageGallery';
+import { Layout } from 'components/Layout';
+import ProductQuantityAdder from 'components/ProductQuantityAdder';
+import { graphql } from 'gatsby';
 import queryString from 'query-string';
+import React, { useContext, useEffect, useState } from 'react';
+import CartContext from '../../context/CartContext';
+import { Grid, Price, SelectWrapper } from './styles';
 
 // This query will be executed by Gatsby on page load, and the result be injected into props
 export const query = graphql`
@@ -80,7 +81,15 @@ const ProductTemplate = props => {
                   </select>
                 </SelectWrapper>
               )}
-              {!!selectedVariant && <Price>${selectedVariant.price}</Price>}
+              {!!selectedVariant && (
+                <>
+                  <Price>${selectedVariant.price}</Price>
+                  <ProductQuantityAdder
+                    variantId={selectedVariant.id}
+                    available={selectedVariant.available}
+                  />
+                </>
+              )}
             </>
           )}
         </div>
