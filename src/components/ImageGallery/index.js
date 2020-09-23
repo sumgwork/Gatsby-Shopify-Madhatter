@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'gatsby-image';
 import { ImageGalleryWrapper } from './styles';
 import ImageThumbnail from './ImageThumbnail';
 
-const ImageGallery = ({ images }) => {
-  const [activeImageThumbnail, setActiveImageThumbnail] = useState(images[0]);
+const ImageGallery = ({ images, selectedVariantImageId }) => {
+  const [activeImageThumbnail, setActiveImageThumbnail] = useState(
+    images.find(({ id }) => id === selectedVariantImageId) || images[0]
+  );
+
+  useEffect(() => {
+    setActiveImageThumbnail(
+      images.find(({ id }) => id === selectedVariantImageId) || images[0]
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedVariantImageId, setActiveImageThumbnail]);
 
   const handleClick = image => {
     setActiveImageThumbnail(image);

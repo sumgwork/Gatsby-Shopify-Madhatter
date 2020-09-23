@@ -4,6 +4,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import ImageGallery from '../../components/ImageGallery';
 import CartContext from '../../context/CartContext';
 import { Grid, SelectWrapper, Price } from './styles';
+import { navigate, useLocation } from '@reach/router';
+import queryString from 'query-string';
 
 // This query will be executed by Gatsby on page load, and the result be injected into props
 export const query = graphql`
@@ -30,17 +32,28 @@ const ProductTemplate = props => {
   const { getProductById } = useContext(CartContext);
   const [product, setProduct] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState(null);
+  const { search, origin, pathname } = useLocation();
+  const variantId = queryString.parse(search).variant;
 
   useEffect(() => {
     getProductById(props.data.shopifyProduct.shopifyId).then(result => {
       setProduct(result);
-      setSelectedVariant(result.variants[0]);
+      setSelectedVariant(
+        result.variants.find(({ id }) => id === variantId) || result.variants[0]
+      );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.data.shopifyProduct.shopifyId, setProduct]);
+  }, [props.data.shopifyProduct.shopifyId, setProduct, variantId]);
 
   const handleVariantChange = e => {
-    setSelectedVariant(product?.variants.find(v => v.id === e.target.value));
+    const newVariant = product?.variants.find(v => v.id === e.target.value);
+    setSelectedVariant(newVariant);
+    navigate(
+      `${origin}${pathname}?variant=${encodeURIComponent(newVariant.id)}`,
+      {
+        replace: true,
+      }
+    );
   };
 
   return (
@@ -55,7 +68,10 @@ const ProductTemplate = props => {
                 <SelectWrapper>
                   <strong>Variant</strong>
                   {/* eslint-disable-next-line jsx-a11y/no-onchange */}
-                  <select onChange={handleVariantChange}>
+                  <select
+                    onChange={handleVariantChange}
+                    value={selectedVariant?.id}
+                  >
                     {product.variants.map(v => (
                       <option key={v.id} value={v.id}>
                         {v.title}
@@ -69,7 +85,10 @@ const ProductTemplate = props => {
           )}
         </div>
         <div>
-          <ImageGallery images={props.data.shopifyProduct.images} />
+          <ImageGallery
+            images={props.data.shopifyProduct.images}
+            selectedVariantImageId={selectedVariant?.image.id}
+          />
         </div>
       </Grid>
     </Layout>
