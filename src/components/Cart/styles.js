@@ -4,13 +4,17 @@ import { StyledLink } from '../StyledLink';
 export const CartWrapper = styled(StyledLink).attrs(() => ({
   to: '/cart',
 }))`
-  margin-left: auto;
+  padding-left: 20px;
   display: flex;
   color: black;
   text-decoration: none;
 
   &:hover {
     text-decoration: underline;
+  }
+
+  > svg {
+    margin: auto 0;
   }
 
   > div:last-child {
