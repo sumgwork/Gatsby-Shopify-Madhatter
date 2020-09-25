@@ -37,10 +37,13 @@ export const Title = styled.div`
   font-weight: bold;
   border-radius: 10px;
   text-shadow: 2px wpx wpx rgba(0, 0, 0, 0.75);
+  background: ${props => (props.sale ? 'red' : 'none')};
 `;
 
 export const Description = styled.div`
   margin: 10px;
   font-size: 20px;
   border-radius: 10px;
+  padding: 10px;
+  background: ${props => (props.sale ? 'red' : 'none')};
 `;

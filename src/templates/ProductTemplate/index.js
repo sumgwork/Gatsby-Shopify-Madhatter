@@ -2,6 +2,7 @@ import { navigate, useLocation } from '@reach/router';
 import ImageGallery from 'components/ImageGallery';
 import { Layout } from 'components/Layout';
 import ProductQuantityAdder from 'components/ProductQuantityAdder';
+import { Button } from 'components/Button';
 import { graphql } from 'gatsby';
 import queryString from 'query-string';
 import React, { useContext, useEffect, useState } from 'react';
@@ -47,6 +48,7 @@ const ProductTemplate = props => {
 
   return (
     <Layout>
+      <Button onClick={() => navigate(-1)}>Back to products</Button>
       <Grid>
         <div>
           <h1>{props.data.shopifyProduct.title}</h1>

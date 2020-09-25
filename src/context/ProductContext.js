@@ -7,11 +7,16 @@ const query = graphql`
       edges {
         node {
           title
+          description
           products {
             ...ShopifyProductFields
+            handle
+            priceRange {
+              minVariantPrice {
+                amount
+              }
+            }
           }
-          title
-          description
           shopifyId
           image {
             id
