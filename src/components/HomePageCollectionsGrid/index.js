@@ -18,6 +18,9 @@ const HomePageCollectionsGrid = ({ collections }) => {
           sale
           title={saleCollection.title}
           description={saleCollection.description}
+          destination={`/all-products/?c=${encodeURIComponent(
+            saleCollection.shopifyId
+          )}`}
           backgroundImage={
             saleCollection.image?.localFile.childImageSharp.fluid
           }
@@ -29,6 +32,9 @@ const HomePageCollectionsGrid = ({ collections }) => {
             key={collection.shopifyId}
             title={collection.title}
             description={collection.description}
+            destination={`/all-products/?c=${encodeURIComponent(
+              collection.shopifyId
+            )}`}
             backgroundImage={collection.image?.localFile.childImageSharp.fluid}
           />
         ))}

@@ -2,8 +2,9 @@ import CartContext from 'context/CartContext';
 import React, { useContext } from 'react';
 import QuantityAdjuster from '../QuantityAdjuster';
 import RemoveLineItem from '../RemoveLineItem';
-import { CartFooter, CartHeader, CartItem } from './styles';
-
+import { CartFooter, CartHeader, CartItem, Footer } from './styles';
+import { Button } from 'components/Button/styles';
+import { navigate } from '@reach/router';
 const CartContent = () => {
   const { checkout, updateLineItem } = useContext(CartContext);
 
@@ -14,12 +15,15 @@ const CartContent = () => {
   return (
     <section>
       <h1>Your Cart</h1>
-      <CartHeader>
-        <div>Product</div>
-        <div>Unit Price</div>
-        <div>Quantity</div>
-        <div>Amount</div>
-      </CartHeader>
+      {!!checkout?.lineItems && (
+        <CartHeader>
+          <div>Product</div>
+          <div>Unit Price</div>
+          <div>Quantity</div>
+          <div>Amount</div>
+        </CartHeader>
+      )}
+
       {checkout?.lineItems?.map(lineItem => (
         <CartItem key={lineItem.variant.id}>
           <div>
@@ -36,14 +40,33 @@ const CartContent = () => {
           <RemoveLineItem lineItemId={lineItem.id} />
         </CartItem>
       ))}
-      <CartFooter>
+      {!!checkout?.lineItems && (
+        <CartFooter>
+          <div>
+            <strong>Total: </strong>
+          </div>
+          <div>
+            <span>${checkout?.totalPrice}</span>
+          </div>
+        </CartFooter>
+      )}
+      {!checkout?.lineItems && <h4>Your cart is empty</h4>}
+      <Footer>
         <div>
-          <strong>Total: </strong>
+          <Button onClick={() => navigate(-1)}>Continue Shopping</Button>
         </div>
         <div>
-          <span>${checkout?.totalPrice}</span>
+          {!!checkout?.webUrl && (
+            <Button
+              onClick={() => {
+                window.location.href = checkout.webUrl;
+              }}
+            >
+              Checkout
+            </Button>
+          )}
         </div>
-      </CartFooter>
+      </Footer>
     </section>
   );
 };

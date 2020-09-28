@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Layout } from 'components/Layout';
+import { SEO } from 'components/SEO';
 import ProductContext from 'context/ProductContext';
 import ProductsGrid from 'components/ProductsGrid';
 import styled from 'styled-components';
@@ -61,6 +62,10 @@ const AllProducts = () => {
     .filter(filterBySearchTerm);
   return (
     <Layout>
+      <SEO
+        title="Madhatter All Products"
+        description="Madhatter Store All Products page"
+      />
       {!!searchTerm && !!filteredProducts.length && (
         <h3>
           Search Term: <strong>'{searchTerm}'</strong>

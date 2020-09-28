@@ -8,7 +8,7 @@ import queryString from 'query-string';
 import React, { useContext, useEffect, useState } from 'react';
 import CartContext from '../../context/CartContext';
 import { Grid, Price, SelectWrapper } from './styles';
-
+import { SEO } from 'components/SEO';
 // This query will be executed by Gatsby on page load, and the result be injected into props
 export const query = graphql`
   query ProductQuery($shopifyId: String) {
@@ -48,6 +48,10 @@ const ProductTemplate = props => {
 
   return (
     <Layout>
+      <SEO
+        title={props.data.shopifyProduct.title}
+        description={props.data.shopifyProduct.description}
+      />
       <Button onClick={() => navigate(-1)}>Back to products</Button>
       <Grid>
         <div>

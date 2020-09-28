@@ -1,11 +1,18 @@
+import Cart from 'components/Cart';
+import Logo from 'components/Logo';
+import Search from 'components/Search';
+import { Link } from 'gatsby';
 import React from 'react';
 import { HeaderWrapper } from './styles';
-import Cart from 'components/Cart';
-import Search from 'components/Search';
 
 const Header = () => {
   return (
     <HeaderWrapper>
+      <div>
+        <Link to="/">
+          <Logo />
+        </Link>
+      </div>
       <Search />
       <Cart />
     </HeaderWrapper>
